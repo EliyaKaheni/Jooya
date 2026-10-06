@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     top_k: int = 5
 
     # LLM
-    llm_model: str = "gpt-6-luna"
+    llm_model: str = "gpt-4o-mini"
     llm_temperature: float = 0.0
 
     model_config = SettingsConfigDict(

@@ -35,8 +35,9 @@ Answer the question based only on the provided context.
 
     return prompt
 
-def rag_answer(question: str) -> str:
-    contexts = retrieve(question)
+def rag_answer(question: str, contexts: list[Document] | None = None ) -> str:
+    if not contexts:
+       contexts = retrieve(question)
 
     prompt = build_rag_prompt(question, contexts)
 
