@@ -109,12 +109,3 @@ python -m tests.test_rag
 * [x] RAG prompt
 * [x] LLM integration
 * [x] Source/page citations
-
-### Planned
-
-* [ ] Reranking
-* [ ] Query rewriting
-* [ ] Multi-agent architecture
-* [ ] Answer evaluation
-* [ ] Research and verification agents
-* [ ] API and frontend
