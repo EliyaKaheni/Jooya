@@ -1,96 +1,81 @@
 # Jooya
 
-Jooya is a **Retrieval-Augmented Generation (RAG)** system for answering questions from research papers and PDF documents.
+Jooya is an agentic Retrieval-Augmented Generation (RAG) system that answers questions using local PDF documents and web search results.
 
 ## Features
 
-* PDF document ingestion
-* Token-based text chunking
-* `BAAI/bge-m3` embeddings
-* Qdrant vector database
-* Semantic retrieval
-* Context-aware RAG prompting
-* Source and page citations
-* GPT-6 Luna for answer generation
-* Modular architecture for future multi-agent support
+- PDF ingestion and token-based text chunking
+- `BAAI/bge-m3` embeddings
+- Qdrant vector database and semantic retrieval
+- Web search via SearXNG
+- LangGraph-based workflow
+- Context-aware answer generation using local documents and web results
+- Source citations for local documents and web results
 
 ## Architecture
 
 ```text
-PDF
- │
- ▼
-Loader
- │
- ▼
-Splitter
- │
- ▼
-Embedding (BGE-M3)
- │
- ▼
-Qdrant
- │
- ▼
-Retriever
- │
- ▼
-RAG Prompt
- │
- ▼
-GPT-6 Luna
- │
- ▼
-Answer + Citations
-```
-
-## Project Structure
-
-```text
-Jooya/
-├── .env
-├── backend/
-│   ├── app/
-│   │   ├── config.py
-│   │   ├── ingestion/
-│   │   ├── vectorstore/
-│   │   ├── retrieval/
-│   │   └── llm/
-│   └── tests/
-└── README.md
+                 ┌──────────────┐
+                 │ User Question│
+                 └──────┬───────┘
+                        │
+              ┌─────────▼─────────┐
+              │    LangGraph      │
+              └─────────┬─────────┘
+                        │
+              ┌─────────▼─────────┐
+              │  Retrieval Agent  │
+              │      Qdrant       │
+              └─────────┬─────────┘
+                        │
+              ┌─────────▼─────────┐
+              │   Research Agent  │
+              │     SearXNG       │
+              └─────────┬─────────┘
+                        │
+              ┌─────────▼─────────┐
+              │   Answer Agent    │
+              │  LLM + Citations  │
+              └─────────┬─────────┘
+                        │
+                 ┌──────▼───────┐
+                 │ Final Answer │
+                 └──────────────┘
 ```
 
 ## Tech Stack
 
-* **Python**
-* **LangChain**
-* **Qdrant**
-* **PyPDF**
-* **Hugging Face Transformers**
-* **BAAI/bge-m3**
-* **GPT-6 Luna**
+- Python
+- LangChain
+- LangGraph
+- Qdrant
+- SearXNG
+- Hugging Face Transformers
+- `BAAI/bge-m3`
+- GPT-6 Luna
 
 ## Configuration
 
-Create a `.env` file in the project root:
+Configure the required environment variables in a `.env` file:
 
 ```env
 OPENAI_API_KEY=your_api_key_here
 ```
 
-Qdrant is expected to be available at:
+Qdrant and SearXNG are expected to be available at:
 
-```text
-http://localhost:6333
-```
+- Qdrant: `http://localhost:6333`
+- SearXNG: `http://localhost:8080`
 
-## Run
+## Installation
 
-Install dependencies:
+Install the project dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+## Testing
 
 Run the RAG test:
 
@@ -99,13 +84,8 @@ cd backend
 python -m tests.test_rag
 ```
 
-## Current Status
+Run the research agent test:
 
-* [x] PDF ingestion
-* [x] Chunking
-* [x] Embeddings
-* [x] Qdrant storage
-* [x] Semantic retrieval
-* [x] RAG prompt
-* [x] LLM integration
-* [x] Source/page citations
+```bash
+python -m tests.test_research
+```
